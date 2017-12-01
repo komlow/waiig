@@ -6,6 +6,7 @@ import (
     "io"
     "github.com/komlow/writing-an-interpreter-in-go/lexer"
     "github.com/komlow/writing-an-interpreter-in-go/parser"
+    "github.com/komlow/writing-an-interpreter-in-go/evaluator"
 )
 
 const PROMPT = ">> "
@@ -44,8 +45,12 @@ func Start(in io.Reader, out io.Writer) {
             continue
         }
 
-        io.WriteString(out, program.String())
-        io.WriteString(out, "\n")
+        evaluated := evaluator.Eval(program)
+
+        if evaluated != nil {
+            io.WriteString(out, evaluated.Inspect())
+            io.WriteString(out, "\n")
+        }
     }
 }
 
