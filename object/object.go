@@ -8,12 +8,13 @@ import (
 )
 
 const (
-    INTEGER_OBJ = "INTEGER"
-    BOOLEAN_OBJ = "BOOLEAN"
-    NULL_OBJ = "NULL"
+    INTEGER_OBJ      = "INTEGER"
+    BOOLEAN_OBJ      = "BOOLEAN"
+    STRING_OBJ       = "STRING"
+    NULL_OBJ         = "NULL"
     RETURN_VALUE_OBJ = "RETURN_VALUE"
-    ERROR_OBJ = "ERROR"
-    FUNCTION_OBJ = "FUNCTION"
+    ERROR_OBJ        = "ERROR"
+    FUNCTION_OBJ     = "FUNCTION"
 )
 
 type ObjectType string
@@ -29,6 +30,10 @@ type Integer struct {
 
 type Boolean struct {
     Value bool
+}
+
+type String struct {
+    Value string
 }
 
 type Null struct {}
@@ -61,6 +66,14 @@ func (b *Boolean) Inspect() string {
 
 func (b *Boolean) Type() ObjectType {
     return BOOLEAN_OBJ
+}
+
+func (s *String) Inspect() string {
+    return s.Value
+}
+
+func (s *String) Type() ObjectType {
+    return STRING_OBJ
 }
 
 func (n *Null) Inspect() string {
