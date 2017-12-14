@@ -15,6 +15,7 @@ const (
     RETURN_VALUE_OBJ = "RETURN_VALUE"
     ERROR_OBJ        = "ERROR"
     FUNCTION_OBJ     = "FUNCTION"
+    BUILTIN_OBJ      = "BUILTIN"
 )
 
 type ObjectType string
@@ -50,6 +51,12 @@ type Function struct {
     Parameters []*ast.Identifier
     Body       *ast.BlockStatement
     Env        *Environment
+}
+
+type BuiltinFunction func(args ...Object) Object
+
+type Builtin struct {
+    Fn BuiltinFunction
 }
 
 func (i *Integer) Inspect() string {
@@ -120,5 +127,14 @@ func (f *Function) Inspect() string {
     out.WriteString("\n}")
 
     return out.String()
+}
+
+
+func (b *Builtin) Type() ObjectType {
+    return BUILTIN_OBJ
+}
+
+func (b *Builtin) Inspect() string {
+    return "builtin function"
 }
 
